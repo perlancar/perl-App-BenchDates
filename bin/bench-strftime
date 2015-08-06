@@ -1,0 +1,43 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010001;
+use strict;
+use warnings;
+
+use Benchmark::Dumb qw(cmpthese);
+use POSIX qw(strftime);
+
+my @lt = localtime();
+
+cmpthese(
+    0,
+    {
+        'strftime("") 1k'                   => sub { strftime("",                   @lt) for 1..1000 },
+        'strftime("%Y-%m-%d") 1k'           => sub { strftime("%Y-%m-%d",           @lt) for 1..1000 },
+        'strftime("%F") 1k'                 => sub { strftime("%F",                 @lt) for 1..1000 },
+        'strftime("%Y-%m-%dT%H:%M:%SZ") 1k' => sub { strftime("%Y-%m-%dT%H:%M:%SZ", @lt) for 1..1000 },
+        'strftime("%FT%TZ) 1k'              => sub { strftime("%FT%TZ",             @lt) for 1..1000 },
+    },
+);
+
+# ABSTRACT: Benchmark date formatting
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % bench-strftime
+
+Sample output:
+
+# COMMAND: perl bin/bench-strftime
+
+
+=head1 DESCRIPTION
+
+Conclusion: basically the format strings used are not the bottleneck.
+
+
+=head1 SEE ALSO

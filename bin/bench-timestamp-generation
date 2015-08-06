@@ -1,0 +1,38 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010001;
+use strict;
+use warnings;
+
+use Benchmark::Dumb qw(cmpthese);
+use Time::HiRes ();
+
+cmpthese(
+    0,
+    {
+        'time() 1k'             => sub { time() for 1..1000 },
+        'time() (HiRes) 1k'     => sub { Time::HiRes::time() for 1..1000 },
+        'list localtime() 1k'   => sub { my @lt = localtime() for 1..1000 },
+        'scalar localtime() 1k' => sub { my $lt = localtime() for 1..1000 },
+    },
+);
+
+# ABSTRACT: Benchmark timestamp generation
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % bench-timestamp-generation
+
+Sample output:
+
+# COMMAND: perl bin/bench-timestamp-generation
+
+
+=head1 DESCRIPTION
+
+
+=head1 SEE ALSO
