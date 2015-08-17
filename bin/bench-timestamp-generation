@@ -13,7 +13,7 @@ use Time::HiRes ();
 cmpthese(
     0,
     {
-        'time() 1k'             => sub { time() for 1..1000 },
+        'time() 1k'             => sub { no warnings 'void'; time() for 1..1000 },
         'time() (HiRes) 1k'     => sub { Time::HiRes::time() for 1..1000 },
         'list localtime() 1k'   => sub { my @lt = localtime() for 1..1000 },
         'scalar localtime() 1k' => sub { my $lt = localtime() for 1..1000 },
